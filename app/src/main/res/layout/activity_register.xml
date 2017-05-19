@@ -40,7 +40,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textEmailAddress"
+            android:inputType="text"
             android:padding="20dp"
             android:drawableLeft="@android:drawable/ic_menu_sort_alphabetically"
             android:drawableTint="@color/colorAccent"
