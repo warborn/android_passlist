@@ -19,10 +19,10 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         //Objects
-        etEmail = (EditText) findViewById(R.id.Email);
-        etPassword = (EditText) findViewById(R.id.Password);
-        bntSend = (Button) findViewById(R.id.Send);
-        tvRegister = (TextView) findViewById(R.id.Register);
+        etEmail = (EditText) findViewById(R.id.et_email);
+        etPassword = (EditText) findViewById(R.id.et_password);
+        bntSend = (Button) findViewById(R.id.btn_send);
+        tvRegister = (TextView) findViewById(R.id.tv_register);
         //start btnSend click listener function
         bntSend.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
@@ -38,3 +38,4 @@ public class Login extends AppCompatActivity {
         });
     }
 }
+.
