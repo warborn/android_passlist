@@ -31,8 +31,9 @@ public final class PasslistService {
     }
 
     public static final void validateToken(SharedPreferences preferences, JSONObjectRequestListener requestListener) {
+        AuthUtils.setPreferences(preferences);
         ANRequest.GetRequestBuilder androidNetworking = (ANRequest.GetRequestBuilder)
-                AuthUtils.addAuthHeaders(AndroidNetworking.get(VALIDATE_TOKEN_URL), preferences);
+                AuthUtils.addAuthHeaders(AndroidNetworking.get(VALIDATE_TOKEN_URL));
 
         androidNetworking.setTag("validate_token")
                 .setPriority(Priority.MEDIUM)

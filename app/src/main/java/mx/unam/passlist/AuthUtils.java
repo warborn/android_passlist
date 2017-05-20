@@ -13,6 +13,7 @@ import okhttp3.Response;
  */
 
 public class AuthUtils {
+    private static SharedPreferences preferences;
 
     public static final void saveAuthHeadersToPreferences(Response okHttpResponse, SharedPreferences preferences) {
         SharedPreferences.Editor editor = preferences.edit();
@@ -45,12 +46,16 @@ public class AuthUtils {
         return jsonObject;
     }
 
-    public static final RequestBuilder addAuthHeaders(RequestBuilder androidNetworking, SharedPreferences preferences) {
+    public static final RequestBuilder addAuthHeaders(RequestBuilder androidNetworking) {
         androidNetworking
             .addHeaders("Access-Token", preferences.getString("Access-Token", ""))
             .addHeaders("Uid", preferences.getString("Uid", ""))
             .addHeaders("Client", preferences.getString("Client", ""))
             .addHeaders("Expiry", preferences.getString("Expiry", ""));
         return androidNetworking;
+    }
+
+    public static void setPreferences(SharedPreferences sharedPreferences) {
+        preferences = sharedPreferences;
     }
 }
