@@ -15,7 +15,6 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;
-    private static final String AUTH_FIELD = "Access-Token";
     TextView tvMessage;
 
     @Override
@@ -29,8 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
-        AuthUtils.validateHeaders(preferences, new JSONObjectRequestListener() {
+        PasslistService.validateToken(preferences, new JSONObjectRequestListener() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
