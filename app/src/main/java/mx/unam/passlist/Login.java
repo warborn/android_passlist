@@ -93,13 +93,8 @@ public class Login extends AppCompatActivity {
                 public void onResponse(Response okHttpResponse, JSONObject response) {
 
                     // handle success
-                    SharedPreferences.Editor editor = preferences.edit();
-                    // save the returned token into a shared preference
-                    editor.putString("Access-Token", okHttpResponse.header("Access-Token"));
-                    editor.putString("Client", okHttpResponse.header("Access-Token"));
-                    editor.putString("Expiry", okHttpResponse.header("Access-Token"));
-                    editor.putString("Uid", okHttpResponse.header("Access-Token"));
-                    editor.apply();
+                    AuthUtils.saveHeadersToPreferences(okHttpResponse, preferences);
+
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
