@@ -54,6 +54,15 @@ public class Login extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+        finish();
+    }
+
     private void login(String email, String password) {
         if(email.equals("") || password.equals("")) {
             Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_LONG).show();
