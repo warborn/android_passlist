@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        
+
         AuthUtils.validateHeaders(preferences, new JSONObjectRequestListener() {
             @Override
             public void onResponse(JSONObject response) {

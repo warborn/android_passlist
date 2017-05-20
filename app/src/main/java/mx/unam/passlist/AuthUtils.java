@@ -33,8 +33,6 @@ public class AuthUtils {
         editor.apply();
     }
 
-
-
     public static void validateHeaders(SharedPreferences preferences, JSONObjectRequestListener listener) {
         ANRequest.GetRequestBuilder androidNetworking = (ANRequest.GetRequestBuilder)
                 addAuthHeaders(AndroidNetworking.get("https://unam-passlist.herokuapp.com/auth/validate_token"), preferences);
@@ -43,6 +41,27 @@ public class AuthUtils {
             .setPriority(Priority.MEDIUM)
             .build()
             .getAsJSONObject(listener);
+    }
+
+    public static JSONObject createJsonCredentials(String email, String password) {
+        /** Create a JSON object like the following
+         {
+             "user": {
+                 "email": "example@email.com",
+                 "password": "password"
+             }
+         }
+        */
+        JSONObject jsonObject = new JSONObject();
+        JSONObject userCredentials = new JSONObject();
+        try {
+            userCredentials.put("email", email);
+            userCredentials.put("password", password);
+            jsonObject.put("user", userCredentials);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
     private static final RequestBuilder addAuthHeaders(RequestBuilder androidNetworking, SharedPreferences preferences) {

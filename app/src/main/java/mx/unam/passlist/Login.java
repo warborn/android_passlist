@@ -64,51 +64,28 @@ public class Login extends AppCompatActivity {
     }
 
     private void attemptLogin(String signInUrl, String email, String password) {
-        /** Create a JSON object like the following
-         {
-             "user": {
-                 "email": "example@email.com",
-                 "password": "password"
-             }
-         }
-         */
-        JSONObject jsonObject = new JSONObject();
-        JSONObject userCredentials = new JSONObject();
-        try {
-            userCredentials.put("email", email);
-            userCredentials.put("password", password);
-            jsonObject.put("user", userCredentials);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        JSONObject credentials = AuthUtils.createJsonCredentials(email, password);
 
         // Send a HTTP post request to the sign_in API endpoint
         AndroidNetworking.post(signInUrl)
-            .addJSONObjectBody(jsonObject)
+            .addJSONObjectBody(credentials)
             .setTag("signin")
             .setPriority(Priority.MEDIUM)
             .build()
             .getAsOkHttpResponseAndJSONObject(new OkHttpResponseAndJSONObjectRequestListener() {
                 @Override
-                public void onResponse(Response okHttpResponse, JSONObject response) {
-
-                    // handle success
+                public void onResponse(Response okHttpResponse, JSONObject response) {// handle success
                     AuthUtils.saveHeadersToPreferences(okHttpResponse, preferences);
 
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
-//                    Log.i("HEADERS", okHttpResponse.headers().toString());
-//                    Log.i("Token", okHttpResponse.header("Access-Token"));
-//                    Log.i("Client", okHttpResponse.header("Client"));
-//                    Log.i("Expiry", okHttpResponse.header("Expiry"));
-//                    Log.i("Uid", okHttpResponse.header("Uid"));
                 }
 
                 @Override
                 public void onError(ANError error) {
                     // handle error
-                    Toast.makeText(getApplicationContext(), "Failed login", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Usuario y/o contraseña incorrectos", Toast.LENGTH_LONG).show();
                     if (error.getErrorCode() != 0) {
                         // received error from server
                         Log.e("ERROR", "onError errorBody : " + error.getErrorBody());
