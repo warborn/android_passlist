@@ -8,6 +8,9 @@ import org.json.JSONObject;
  * Created by Ivan on 20/05/2017.
  */
 
+/**
+ * Class with helper methods to manipulate JSON
+ */
 public class JSONBuilder {
     public static final JSONObject buildUserRegistration(String email, String firstName, String lastName, String motherLastName,
                                                          String password, String passwordConfirmation) {
@@ -61,6 +64,8 @@ public class JSONBuilder {
         return jsonObject;
     }
 
+    // Returns a string with all the messages inside of the "full_messages" array
+    // { "errors": "full_messages": [] }
     public static String getStringFromErrorMessages(String errors) {
         String errorMessagesStr = "";
         try {
@@ -73,6 +78,8 @@ public class JSONBuilder {
         return errorMessagesStr;
     }
 
+    // Returns a string with all the messages inside of the "errors" array
+    // { "errors": [] }
     public static String getStringFromErrors(String errors) {
         String errorMessagesStr = "";
         try {
@@ -85,6 +92,8 @@ public class JSONBuilder {
         return errorMessagesStr;
     }
 
+    // Returns a joined string array by a newline
+    // ["1", "2", "3"] => "1\n2\n3"
     private static String joinJSONStringArray(JSONArray jsonArray) {
         StringBuilder stringBuilder = new StringBuilder("");
         if(jsonArray.length() > 0) {

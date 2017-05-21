@@ -18,6 +18,19 @@ import java.util.regex.Pattern;
  * Created by Ivan on 20/05/2017.
  */
 
+/**
+ * Service class to interact with the Passlist API at https://unam-passlist.herokuapp.com
+ * This class is the one in charge to send HTTP Request to the API, it has wrapper methods to send specific requests like
+ *      * Login a user
+ *      * Validate the stored token of the user in the shared preferences to know if it's still a valid token
+ *      * Register a new user
+ *      * Create a new group for the current logged in user
+ *      * Get all the groups of the current logged in user
+ *      * Get one group information and a list of the school class days (the calendar)
+ *      * Get one class day information and a list of the students in that class to allow the user to mark students assistance
+ *      * Toggle a student's assistance between true and false
+ *
+ */
 public final class PasslistService {
     private static final String API_URL = "https://unam-passlist.herokuapp.com";
     private static final String SIGNIN_URL = API_URL + "/auth/sign_in";
@@ -28,9 +41,10 @@ public final class PasslistService {
     private static final String CLASS_URL = API_URL + "/classes/{id}";
     private static final String MARK_STUDENT_AS_ASSISTANCE = API_URL + "/classes/{class_id}/students/{student_id}/assist";
 
+    // Attempt a login using the given email and password
     public static final void login(String email, String password, OkHttpResponseAndJSONObjectRequestListener requestListener) {
         JSONObject credentials = JSONBuilder.buildUserCredentials(email, password);
-        // Send a HTTP post request to the sign_in API endpoint
+        // Send a POST request to the sign_in API endpoint
         AndroidNetworking.post(SIGNIN_URL)
                 .addJSONObjectBody(credentials)
                 .setTag("sign_in")
@@ -39,6 +53,8 @@ public final class PasslistService {
                 .getAsOkHttpResponseAndJSONObject(requestListener);
     }
 
+    // Validate the stored token, UID, client (client consuming the API) and expiry time
+    // to know if the user will need to login again or not
     public static final void validateToken(SharedPreferences preferences, JSONObjectRequestListener requestListener) {
         AuthUtils.setPreferences(preferences);
         ANRequest.GetRequestBuilder androidNetworking = (ANRequest.GetRequestBuilder)
@@ -50,6 +66,7 @@ public final class PasslistService {
                 .getAsJSONObject(requestListener);
     }
 
+    // Register a new user based on the given information
     public static final void registerUser(String email, String firstName, String lastName, String motherLastName,
                                           String password, String passwordConfirmation,
                                           JSONObjectRequestListener requestListener) {
@@ -67,6 +84,7 @@ public final class PasslistService {
                 .getAsJSONObject(requestListener);
     }
 
+    // Get the groups information owned by the current logged in user
     public static final void getGroups(JSONArrayRequestListener requestListener) {
         ANRequest.GetRequestBuilder androidNetworking = (ANRequest.GetRequestBuilder)
                 AuthUtils.addAuthHeaders(AndroidNetworking.get(GROUPS_URL));
@@ -77,6 +95,7 @@ public final class PasslistService {
                 .getAsJSONArray(requestListener);
     }
 
+    // Get the information of a single group by it's ID, along with the list of school classdays
     public static final void getGroup(String id, JSONObjectRequestListener requestListener) {
         String groupURL = injectIdInUrl(GROUP_URL, id);
         ANRequest.GetRequestBuilder androidNetworking = (ANRequest.GetRequestBuilder)
@@ -88,6 +107,7 @@ public final class PasslistService {
                 .getAsJSONObject(requestListener);
     }
 
+    // Get the information of a single class day by it's ID, including the list of students
     public static final void getClass(String id, JSONObjectRequestListener requestListener) {
         String groupURL = injectIdInUrl(CLASS_URL, id);
         ANRequest.GetRequestBuilder androidNetworking = (ANRequest.GetRequestBuilder)
@@ -99,6 +119,7 @@ public final class PasslistService {
                 .getAsJSONObject(requestListener);
     }
 
+    // Toggle the assistance of a student between true and false, given the class and student ID
     public static final void markAssistance(String classId, String studentId, JSONObjectRequestListener requestListener) {
         String markStudentAssistanceUrl = injectClassIdInUrl(MARK_STUDENT_AS_ASSISTANCE, classId);
         markStudentAssistanceUrl = injectStudentIdInUrl(markStudentAssistanceUrl, studentId);
@@ -112,18 +133,22 @@ public final class PasslistService {
                 .getAsJSONObject(requestListener);
     }
 
+    // Replace the {id} pattern in a string with an actual value
     private static final String injectIdInUrl(String urlPattern, String id) {
         return replacePattern(urlPattern, id, "id");
     }
 
+    // Replace the {class_id} pattern in a string with an actual value
     private static final String injectClassIdInUrl(String urlPattern, String id) {
         return replacePattern(urlPattern, id, "class_id");
     }
 
+    // Replace the {student_id} pattern in a string with an actual value
     private static final String injectStudentIdInUrl(String urlPattern, String id) {
         return replacePattern(urlPattern, id, "student_id");
     }
 
+    // Replace the {ANYTHING} pattern in a string with an actual value
     private static final String replacePattern(String str, String value, String pattern) {
         Pattern p = Pattern.compile("\\{" + pattern + "\\}", Pattern.CASE_INSENSITIVE);
         Matcher m = p.matcher(str);

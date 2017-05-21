@@ -15,13 +15,11 @@ import android.widget.Toast;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.OkHttpResponseAndJSONObjectRequestListener;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import okhttp3.Response;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     public EditText etEmail;
     public EditText etPassword;
     public Button bntSend;
@@ -49,9 +47,10 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        // Start the register activity
         tvRegister.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                Intent intent = new Intent(Login.this, Register.class);
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
@@ -66,6 +65,7 @@ public class Login extends AppCompatActivity {
         finish();
     }
 
+    // Show an error message or send the actual login request
     private void login(String email, String password) {
         if(email.equals("") || password.equals("")) {
             Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_LONG).show();
@@ -74,14 +74,17 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    // Send a login request to the API with the given email and password values
     private void attemptLogin(String email, String password) {
         pbLoadingIndicator.setVisibility(View.VISIBLE);
         PasslistService.login(email, password, new OkHttpResponseAndJSONObjectRequestListener() {
             @Override
             public void onResponse(Response okHttpResponse, JSONObject response) {// handle success
                 pbLoadingIndicator.setVisibility(View.INVISIBLE);
+                // On success save authentication information inside of the request headers into a shared preference
                 AuthUtils.saveAuthHeadersToPreferences(okHttpResponse, preferences);
 
+                // Start the main activity
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -92,6 +95,7 @@ public class Login extends AppCompatActivity {
                 pbLoadingIndicator.setVisibility(View.INVISIBLE);
                 // handle error
                 Log.e("ERROR_BODY", error.getErrorBody());
+                // Show the authentication errors in a toast
                 String errorMessage = JSONBuilder.getStringFromErrors(error.getErrorBody());
                 Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
                 error.printStackTrace();

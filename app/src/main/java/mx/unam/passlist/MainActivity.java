@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void returnToLoginActivity() {
-        Intent intent = new Intent(MainActivity.this, Login.class);
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 }

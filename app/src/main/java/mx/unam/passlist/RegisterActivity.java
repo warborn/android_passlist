@@ -15,7 +15,7 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Register extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
     public EditText etName;
     public EditText etLastName;
     public EditText etMotherLastName;
@@ -44,6 +44,7 @@ public class Register extends AppCompatActivity {
         //End function
     }
 
+    // Send a request to the API to register a new user
     private void registerUser() {
         String email = etEmail.getText().toString();
         String name = etName.getText().toString();
@@ -56,6 +57,7 @@ public class Register extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    // On success show the next steps to the user in a toast and start the login activity after a few seconds
                     if (response.has("status") && response.getString("status").equals("success")) {
                         String successMessage = "Tu cuenta ha sido registrada con exito! Por favor primer confirma tu correo electrónico";
                         Toast.makeText(getApplicationContext(), successMessage, Toast.LENGTH_LONG).show();
@@ -74,6 +76,7 @@ public class Register extends AppCompatActivity {
             @Override
             public void onError(ANError anError) {
                 Log.e("REGISTER_ERROR", anError.getErrorBody());
+                // Show the authentication errors in a toast
                 String errorMessages = JSONBuilder.getStringFromErrorMessages(anError.getErrorBody());
                 Toast.makeText(getApplicationContext(), errorMessages, Toast.LENGTH_LONG).show();
             }
@@ -81,7 +84,7 @@ public class Register extends AppCompatActivity {
     }
 
     private void returnToLoginActivity() {
-        Intent intent = new Intent(Register.this, Login.class);
+        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 }
