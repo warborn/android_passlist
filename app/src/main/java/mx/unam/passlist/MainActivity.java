@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvGroups;
     TextView tvGroup;
     TextView tvClass;
+    TextView tvAssistance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         tvGroups = (TextView) findViewById(R.id.tv_groups);   // Hold a JSON string of all the groups of the logged in user
         tvGroup = (TextView) findViewById(R.id.tv_group);     // Hold a JSON string of single group (including the classes calendar)
         tvClass = (TextView) findViewById(R.id.tv_class);     // Hold a JSON string of a single class (including the list of students)
+        tvAssistance = (TextView) findViewById(R.id.tv_assistance);   // Hold a JSON string of the changes in the student's assistance
     }
 
     @Override
@@ -53,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                         displayGroups();
                         displayGroup();
                         displayClass();
+                        markAssistance();
                     } else {
                         returnToLoginActivity();
                     }
@@ -134,6 +137,26 @@ public class MainActivity extends AppCompatActivity {
             public void onError(ANError anError) {
                 anError.printStackTrace();
                 Log.e("CLASS_ERROR", anError.getErrorBody());
+            }
+        });
+    }
+
+    // TODO: Move to the activity where the user will see the table of students and pass list
+    // TODO: Use the JSONObject to change the checkbox status of the given student
+    private void markAssistance() {
+        String classId = "1";
+        String studentId = "1";
+        PasslistService.markAssistance(classId, studentId, new JSONObjectRequestListener() {
+            @Override
+            public void onResponse(JSONObject response) {
+                tvAssistance.setText(response.toString());
+                tvAssistance.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onError(ANError anError) {
+                anError.printStackTrace();
+                Log.e("ASSISTANCE_ERROR", anError.getErrorBody());
             }
         });
     }

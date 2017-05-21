@@ -25,6 +25,7 @@ public final class PasslistService {
     private static final String GROUPS_URL = API_URL + "/groups";
     private static final String GROUP_URL = API_URL + "/groups/{id}";
     private static final String CLASS_URL = API_URL + "/classes/{id}";
+    private static final String MARK_STUDENT_AS_ASSISTANCE = API_URL + "/classes/{class_id}/students/{student_id}/assist";
 
     public static final void login(String email, String password, OkHttpResponseAndJSONObjectRequestListener requestListener) {
         JSONObject credentials = AuthUtils.createJsonCredentials(email, password);
@@ -80,9 +81,34 @@ public final class PasslistService {
                 .getAsJSONObject(requestListener);
     }
 
+    public static final void markAssistance(String classId, String studentId, JSONObjectRequestListener requestListener) {
+        String markStudentAssistanceUrl = injectClassIdInUrl(MARK_STUDENT_AS_ASSISTANCE, classId);
+        markStudentAssistanceUrl = injectStudentIdInUrl(markStudentAssistanceUrl, studentId);
+
+        ANRequest.PatchRequestBuilder androidNetworking = (ANRequest.PatchRequestBuilder)
+                AuthUtils.addAuthHeaders(AndroidNetworking.patch(markStudentAssistanceUrl));
+        androidNetworking
+                .setTag("assist")
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsJSONObject(requestListener);
+    }
+
     private static final String injectIdInUrl(String urlPattern, String id) {
-        Pattern p = Pattern.compile("\\{id\\}", Pattern.CASE_INSENSITIVE);
-        Matcher m = p.matcher(urlPattern);
-        return m.replaceAll(id);
+        return replacePattern(urlPattern, id, "id");
+    }
+
+    private static final String injectClassIdInUrl(String urlPattern, String id) {
+        return replacePattern(urlPattern, id, "class_id");
+    }
+
+    private static final String injectStudentIdInUrl(String urlPattern, String id) {
+        return replacePattern(urlPattern, id, "student_id");
+    }
+
+    private static final String replacePattern(String str, String value, String pattern) {
+        Pattern p = Pattern.compile("\\{" + pattern + "\\}", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(str);
+        return m.replaceAll(value);
     }
 }
