@@ -92,16 +92,8 @@ public class Login extends AppCompatActivity {
                 pbLoadingIndicator.setVisibility(View.INVISIBLE);
                 // handle error
                 Log.e("ERROR_BODY", error.getErrorBody());
-                try {
-                    JSONObject jsonError = new JSONObject(error.getErrorBody());
-                    if(jsonError.has("errors")) {
-                        JSONArray errors = jsonError.getJSONArray("errors");
-                        String errorMessage = errors.getString(0);
-                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
-                    }
-                } catch(JSONException e) {
-                    e.printStackTrace();
-                }
+                String errorMessage = JSONBuilder.getStringFromErrors(error.getErrorBody());
+                Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
                 error.printStackTrace();
             }
         });

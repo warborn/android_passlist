@@ -57,10 +57,12 @@ public class Register extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     if (response.has("status") && response.getString("status").equals("success")) {
-                        Toast.makeText(getApplicationContext(), "Tu cuenta ha sido registrada con exito! Por favor primer confirma tu correo electrónico", Toast.LENGTH_LONG).show();
+                        String successMessage = "Tu cuenta ha sido registrada con exito! Por favor primer confirma tu correo electrónico";
+                        Toast.makeText(getApplicationContext(), successMessage, Toast.LENGTH_LONG).show();
                         new android.os.Handler().postDelayed(new Runnable() {
                             public void run() {
                                 returnToLoginActivity();
+                                finish();
                             }
                         }, 4000);
                     }
@@ -71,7 +73,9 @@ public class Register extends AppCompatActivity {
 
             @Override
             public void onError(ANError anError) {
-                Log.e("REGISTER_ERROR", anError.getErrorBody().toString());
+                Log.e("REGISTER_ERROR", anError.getErrorBody());
+                String errorMessages = JSONBuilder.getStringFromErrorMessages(anError.getErrorBody());
+                Toast.makeText(getApplicationContext(), errorMessages, Toast.LENGTH_LONG).show();
             }
         });
     }

@@ -1,5 +1,6 @@
 package mx.unam.passlist;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -58,5 +59,44 @@ public class JSONBuilder {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    public static String getStringFromErrorMessages(String errors) {
+        String errorMessagesStr = "";
+        try {
+            JSONObject jsonErrors = new JSONObject(errors);
+            JSONArray errorMessages = jsonErrors.getJSONObject("errors").getJSONArray("full_messages");
+            errorMessagesStr = joinJSONStringArray(errorMessages);
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+        return errorMessagesStr;
+    }
+
+    public static String getStringFromErrors(String errors) {
+        String errorMessagesStr = "";
+        try {
+            JSONObject jsonErrors = new JSONObject(errors);
+            JSONArray errorMessages = jsonErrors.getJSONArray("errors");
+            errorMessagesStr = joinJSONStringArray(errorMessages);
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+        return errorMessagesStr;
+    }
+
+    private static String joinJSONStringArray(JSONArray jsonArray) {
+        StringBuilder stringBuilder = new StringBuilder("");
+        if(jsonArray.length() > 0) {
+            try {
+                stringBuilder.append(jsonArray.getString(0));
+                for (int i = 1; i < jsonArray.length(); i++) {
+                    stringBuilder.append("\n").append(jsonArray.getString(i));
+                }
+            } catch(JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return stringBuilder.toString();
     }
 }
