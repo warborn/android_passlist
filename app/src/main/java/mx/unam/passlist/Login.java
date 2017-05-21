@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.OkHttpResponseAndJSONObjectRequestListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import okhttp3.Response;
@@ -88,7 +91,17 @@ public class Login extends AppCompatActivity {
             public void onError(ANError error) {
                 pbLoadingIndicator.setVisibility(View.INVISIBLE);
                 // handle error
-                Toast.makeText(getApplicationContext(), "Usuario y/o contraseña incorrectos", Toast.LENGTH_LONG).show();
+                Log.e("ERROR_BODY", error.getErrorBody());
+                try {
+                    JSONObject jsonError = new JSONObject(error.getErrorBody());
+                    if(jsonError.has("errors")) {
+                        JSONArray errors = jsonError.getJSONArray("errors");
+                        String errorMessage = errors.getString(0);
+                        Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+                    }
+                } catch(JSONException e) {
+                    e.printStackTrace();
+                }
                 error.printStackTrace();
             }
         });
