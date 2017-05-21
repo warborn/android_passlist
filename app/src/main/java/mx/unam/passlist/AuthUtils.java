@@ -3,9 +3,6 @@ package mx.unam.passlist;
 import android.content.SharedPreferences;
 import com.androidnetworking.common.RequestBuilder;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import okhttp3.Response;
 
 /**
@@ -23,27 +20,6 @@ public class AuthUtils {
         editor.putString("Client", okHttpResponse.header("Client"));
         editor.putString("Expiry", okHttpResponse.header("Expiry"));
         editor.apply();
-    }
-
-    public static JSONObject createJsonCredentials(String email, String password) {
-        /** Create a JSON object like the following
-         {
-             "user": {
-                 "email": "example@email.com",
-                 "password": "password"
-             }
-         }
-        */
-        JSONObject jsonObject = new JSONObject();
-        JSONObject userCredentials = new JSONObject();
-        try {
-            userCredentials.put("email", email);
-            userCredentials.put("password", password);
-            jsonObject.put("user", userCredentials);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return jsonObject;
     }
 
     public static final RequestBuilder addAuthHeaders(RequestBuilder androidNetworking) {

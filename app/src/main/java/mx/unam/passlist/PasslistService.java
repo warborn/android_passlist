@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 public final class PasslistService {
     private static final String API_URL = "https://unam-passlist.herokuapp.com";
     private static final String SIGNIN_URL = API_URL + "/auth/sign_in";
+    private static final String SIGNUP_URL = API_URL + "/auth";
     private static final String VALIDATE_TOKEN_URL = API_URL + "/auth/validate_token";
     private static final String GROUPS_URL = API_URL + "/groups";
     private static final String GROUP_URL = API_URL + "/groups/{id}";
@@ -28,7 +29,7 @@ public final class PasslistService {
     private static final String MARK_STUDENT_AS_ASSISTANCE = API_URL + "/classes/{class_id}/students/{student_id}/assist";
 
     public static final void login(String email, String password, OkHttpResponseAndJSONObjectRequestListener requestListener) {
-        JSONObject credentials = AuthUtils.createJsonCredentials(email, password);
+        JSONObject credentials = JSONBuilder.buildUserCredentials(email, password);
         // Send a HTTP post request to the sign_in API endpoint
         AndroidNetworking.post(SIGNIN_URL)
                 .addJSONObjectBody(credentials)
@@ -45,6 +46,23 @@ public final class PasslistService {
 
         androidNetworking.setTag("validate_token")
                 .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsJSONObject(requestListener);
+    }
+
+    public static final void registerUser(String email, String firstName, String lastName, String motherLastName,
+                                          String password, String passwordConfirmation,
+                                          JSONObjectRequestListener requestListener) {
+
+        JSONObject jsonUser = JSONBuilder.buildUserRegistration(email, firstName, lastName, motherLastName,
+                                                                password, passwordConfirmation);
+
+        ANRequest.PostRequestBuilder androidNetworking = (ANRequest.PostRequestBuilder)
+                AuthUtils.addAuthHeaders(AndroidNetworking.post(SIGNUP_URL));
+
+        androidNetworking.setTag("sign_up")
+                .addJSONObjectBody(jsonUser)
+                .setPriority(Priority.HIGH)
                 .build()
                 .getAsJSONObject(requestListener);
     }
