@@ -9,6 +9,7 @@ import com.androidnetworking.interfaces.JSONArrayRequestListener;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.androidnetworking.interfaces.OkHttpResponseAndJSONObjectRequestListener;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.regex.Matcher;
@@ -91,6 +92,21 @@ public final class PasslistService {
         androidNetworking.setTag("sign_up")
                 .addJSONObjectBody(jsonUser)
                 .setPriority(Priority.HIGH)
+                .build()
+                .getAsJSONObject(requestListener);
+    }
+
+    // Create a new group with the given group information and school class days
+    public static final void createGroup(String name, String subject, String beginDate, String endDate,
+                                         JSONArray classDays, JSONObjectRequestListener requestListener) {
+        JSONObject jsonGroup = JSONBuilder.buildGroup(name, subject, beginDate, endDate, classDays);
+
+        ANRequest.PostRequestBuilder androidNetworking = (ANRequest.PostRequestBuilder)
+                AuthUtils.addAuthHeaders(AndroidNetworking.post(GROUPS_URL));
+
+        androidNetworking.setTag("create_group")
+                .addJSONObjectBody(jsonGroup)
+                .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(requestListener);
     }

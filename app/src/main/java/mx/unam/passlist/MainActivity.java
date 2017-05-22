@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONArrayRequestListener;
@@ -18,6 +19,8 @@ import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;
@@ -73,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
                         displayGroup();
                         displayClass();
                         markAssistance();
+                        // Calling this method will create new a group
+                        // createGroup();
                     } else {
                         returnToLoginActivity();
                     }
@@ -174,6 +179,34 @@ public class MainActivity extends AppCompatActivity {
             public void onError(ANError anError) {
                 anError.printStackTrace();
                 Log.e("ASSISTANCE_ERROR", anError.getErrorBody());
+            }
+        });
+    }
+
+    // TODO: Move to the activity where the user will create a new group
+    private void createGroup() {
+        String name = "0000";
+        String subject = "Grupo de Ejemplo";
+        String beginDate = "2016-02-01";
+        String endDate = "2016-02-08";
+
+        // Each class day need to be a string array
+        String[] classDay1 = {"Lunes", "08:00", "10:00"};
+        String[] classDay2 = {"Viernes", "08:00", "10:00"};
+        // Group the individual class days into a multidimensional string array
+        String[][] classDaysArray = {classDay1, classDay2};
+
+        // Convert a multidimensional string array into a JSONArray needed by the PasslistService.createGroup
+        JSONArray classDays = JSONBuilder.buildJSONArrayFromClassDays(classDaysArray);
+        PasslistService.createGroup(name, subject, beginDate, endDate, classDays, new JSONObjectRequestListener() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Toast.makeText(getApplicationContext(), "Nuevo grupo creado!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(ANError anError) {
+                Log.e("CREATE_GROUP_ERROR", anError.getErrorBody());
             }
         });
     }
