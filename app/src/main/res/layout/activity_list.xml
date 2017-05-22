@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:stretchColumns="*"
+        android:background="#01DF3A"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TableRow
+            android:layout_width="0dp">
+
+            <Button
+                android:id="@+id/item_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_span="5"
+                android:text="Lista de Alumnos"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="0dp"
+            android:id="@+id/tableRowHead">
+
+            <TextView
+                android:id="@+id/textViewCount"
+                android:fontFamily="sans-serif-medium"
+                android:text="Numero de Cuenta"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/textViewLastName"
+                android:fontFamily="sans-serif-medium"
+                android:text="Apellido Paterno"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/textViewLastMotherName"
+                android:fontFamily="sans-serif-medium"
+                android:text="Apellido Materno"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/textViewName"
+                android:fontFamily="sans-serif-medium"
+                android:text="Nonmbre"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/texViewAssistance"
+                android:fontFamily="sans-serif-medium"
+                android:text="Asistencia"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:textStyle="bold"
+                android:gravity="center"/>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="0dp">
+
+            <TextView
+                android:fontFamily="sans-serif-medium"
+                android:text="311240972"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:gravity="center"/>
+
+            <TextView
+                android:fontFamily="sans-serif-medium"
+                android:text="Gomez"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:gravity="center"/>
+            <TextView
+                android:fontFamily="sans-serif-medium"
+                android:text="Rojo"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:gravity="center"/>
+            <TextView
+                android:fontFamily="sans-serif-medium"
+                android:text="Profesor"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:id="@+id/linearLayout1"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_weight="0.07"
+                android:layout_height="match_parent"
+                android:background="#ffffffff">
+
+                <CheckBox
+                    android:id="@+id/order_table_row_present_CheckBox1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="0dp">
+
+            <TextView
+                android:fontFamily="sans-serif-medium"
+                android:text="311240972"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:gravity="center"/>
+
+            <TextView
+                android:fontFamily="sans-serif-medium"
+                android:text="Gomez"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:gravity="center"/>
+            <TextView
+                android:fontFamily="sans-serif-medium"
+                android:text="Rojo"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:gravity="center"/>
+            <TextView
+                android:fontFamily="sans-serif-medium"
+                android:text="Profesor"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2tent"
+                android:gravity="center"
+                android:layout_weight="0.07"
+                android:layout_height="match_parent"
+                android:background="#ffffffff">
+
+                <CheckBox
+                    android:id="@+id/order_table_row_present_CheckBox2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="0dp">
+
+            <TextView
+                android:fontFamily="sans-serif-medium"
+                android:text="311240972"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:gravity="center"/>
+
+            <TextView
+                android:fontFamily="sans-serif-medium"
+                android:text="Gomez"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:gravity="center"/>
+            <TextView
+                android:fontFamily="sans-serif-medium"
+                android:text="Rojo"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:gravity="center"/>
+            <TextView
+                android:fontFamily="sans-serif-medium"
+                android:text="Profesor"
+                android:textColor="#000000"
+                android:background="#ffffff"
+                android:textSize="10sp"
+                android:layout_margin="1dp"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_weight="0.07"
+                android:layout_height="match_parent"
+                android:background="#ffffffff">
+                <CheckBox
+                    android:id="@+id/order_table_row_present_CheckBox3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+
+        </TableRow>
+
+    </TableLayout>
+
+</RelativeLayout>
