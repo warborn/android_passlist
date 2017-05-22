@@ -207,6 +207,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onError(ANError anError) {
                 Log.e("CREATE_GROUP_ERROR", anError.getErrorBody());
+                String errorMessage = JSONBuilder.getStringFromErrors(anError.getErrorBody());
+                Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
             }
         });
     }
