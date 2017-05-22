@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
     // Show an error message or send the actual login request
     private void login(String email, String password) {
         if(email.equals("") || password.equals("")) {
-            Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Por favor completa todos los campos", Toast.LENGTH_SHORT).show();
         } else {
             attemptLogin(email, password);
         }
@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                 Log.e("ERROR_BODY", error.getErrorBody());
                 // Show the authentication errors in a toast
                 String errorMessage = JSONBuilder.getStringFromErrors(error.getErrorBody());
-                Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_SHORT).show();
                 error.printStackTrace();
             }
         });
