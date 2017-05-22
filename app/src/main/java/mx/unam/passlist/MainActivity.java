@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,6 +41,21 @@ public class MainActivity extends AppCompatActivity {
         tvGroup = (TextView) findViewById(R.id.tv_group);     // Hold a JSON string of single group (including the classes calendar)
         tvClass = (TextView) findViewById(R.id.tv_class);     // Hold a JSON string of a single class (including the list of students)
         tvAssistance = (TextView) findViewById(R.id.tv_assistance);   // Hold a JSON string of the changes in the student's assistance
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int selectedItemId = item.getItemId();
+        if(selectedItemId == R.id.it_logout) {
+            logoutUser();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -157,6 +174,20 @@ public class MainActivity extends AppCompatActivity {
             public void onError(ANError anError) {
                 anError.printStackTrace();
                 Log.e("ASSISTANCE_ERROR", anError.getErrorBody());
+            }
+        });
+    }
+
+    private void logoutUser() {
+        PasslistService.logout(new JSONObjectRequestListener() {
+            @Override
+            public void onResponse(JSONObject response) {
+                returnToLoginActivity();
+            }
+
+            @Override
+            public void onError(ANError anError) {
+                Log.e("LOGIN_ERROR", anError.getErrorBody());
             }
         });
     }

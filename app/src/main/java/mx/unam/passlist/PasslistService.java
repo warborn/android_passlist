@@ -35,6 +35,7 @@ public final class PasslistService {
     private static final String API_URL = "https://unam-passlist.herokuapp.com";
     private static final String SIGNIN_URL = API_URL + "/auth/sign_in";
     private static final String SIGNUP_URL = API_URL + "/auth";
+    private static final String LOGOUT_URL = API_URL + "/auth/sign_out";
     private static final String VALIDATE_TOKEN_URL = API_URL + "/auth/validate_token";
     private static final String GROUPS_URL = API_URL + "/groups";
     private static final String GROUP_URL = API_URL + "/groups/{id}";
@@ -51,6 +52,16 @@ public final class PasslistService {
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsOkHttpResponseAndJSONObject(requestListener);
+    }
+
+    public static final void logout(JSONObjectRequestListener requestListener) {
+        ANRequest.DeleteRequestBuilder androidNetworking = (ANRequest.DeleteRequestBuilder)
+                AuthUtils.addAuthHeaders(AndroidNetworking.delete(LOGOUT_URL));
+
+        androidNetworking.setTag("validate_token")
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsJSONObject(requestListener);
     }
 
     // Validate the stored token, UID, client (client consuming the API) and expiry time
