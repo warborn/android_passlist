@@ -140,6 +140,7 @@
             android:drawableStart="@android:drawable/ic_menu_send"
             android:drawableLeft="@android:drawable/ic_menu_send"
             android:drawableTint="@color/icons"
+            android:layout_marginBottom="20sp"
             />
 
     </LinearLayout>

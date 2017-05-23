@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar pbLoadingIndicator;
     // TODO: Remove if necessary
     TextView tvMessage;
-    TextView tvGroups;
     TextView tvGroup;
     TextView tvClass;
     TextView tvAssistance;
@@ -39,8 +40,7 @@ public class MainActivity extends AppCompatActivity {
         preferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
         pbLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
         // TODO: Remove if necessary
-        tvMessage = (TextView) findViewById(R.id.tv_message); // Hold the user name/email message
-        tvGroups = (TextView) findViewById(R.id.tv_groups);   // Hold a JSON string of all the groups of the logged in user
+        tvMessage = (TextView) findViewById(R.id.tv_message); // Hold the user name/email messagecd
         tvGroup = (TextView) findViewById(R.id.tv_group);     // Hold a JSON string of single group (including the classes calendar)
         tvClass = (TextView) findViewById(R.id.tv_class);     // Hold a JSON string of a single class (including the list of students)
         tvAssistance = (TextView) findViewById(R.id.tv_assistance);   // Hold a JSON string of the changes in the student's assistance
@@ -71,11 +71,11 @@ public class MainActivity extends AppCompatActivity {
                 pbLoadingIndicator.setVisibility(View.INVISIBLE);
                 try {
                     if (response.getBoolean("success")) {
-                        displayUserInfo(response.getJSONObject("data"));
+                        //displayUserInfo(response.getJSONObject("data"));
                         displayGroups();
-                        displayGroup();
-                        displayClass();
-                        markAssistance();
+                        //displayGroup();
+                        //displayClass();
+                        //markAssistance();
                         // Calling this method will create new a group
                         // createGroup();
                     } else {
@@ -112,8 +112,45 @@ public class MainActivity extends AppCompatActivity {
         PasslistService.getGroups(new JSONArrayRequestListener() {
             @Override
             public void onResponse(JSONArray response) {
-                tvGroups.setText(response.toString());
-                tvGroups.setVisibility(View.VISIBLE);
+                LinearLayout llMain;
+                llMain = (LinearLayout)findViewById(R.id.llMain);
+                Button btnAddGroup = new Button(getBaseContext());
+                for (int i=0; i< response.length(); i++){
+                    try {
+                        final JSONObject jsonObject = response.getJSONObject(i);
+                        // btn onclick action groups
+                        Button btnJsonObject = new Button(getBaseContext());
+                        btnJsonObject.setId(Integer.parseInt(jsonObject.getString("id")));
+                        btnJsonObject.setText(jsonObject.getString("name")+" - "+jsonObject.getString("subject"));
+                        btnJsonObject.setWidth(llMain.getWidth());
+                        btnJsonObject.setHeight(150);
+                        btnJsonObject.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v) {
+                                // Obtain id when onClick event start
+                                String idBtn = String.valueOf(v.getId());
+                                // send the id to function startCalendarActivity
+                                startActivityCalendar(idBtn);
+                            }
+                        });
+                        //btn add group
+                        btnAddGroup.setText("Agregar grupos");
+                        btnAddGroup.setWidth(llMain.getWidth());
+                        btnAddGroup.setHeight(150);
+                        btnAddGroup.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                //Intent intent = new Intent(MainActivity.this, RegisterGroupActivity.class);
+                                //startActivity(intent);
+                            }
+                        });
+                        llMain.addView(btnJsonObject);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                llMain.addView(btnAddGroup);
+
             }
 
             @Override
@@ -231,4 +268,13 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
         startActivity(intent);
     }
+
+    private void startActivityCalendar (String id){
+        Bundle bundle = new Bundle();
+        Intent intent = new Intent(MainActivity.this, CalendarActivity.class);
+        bundle.putString("idGroup", id);
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
+
 }
