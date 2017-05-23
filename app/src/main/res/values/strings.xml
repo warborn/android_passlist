@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PassList</string>
+    <string name="logout">Cerrar Sesión</string>
 </resources>
