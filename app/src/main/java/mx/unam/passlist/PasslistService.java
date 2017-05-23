@@ -12,6 +12,7 @@ import com.androidnetworking.interfaces.OkHttpResponseAndJSONObjectRequestListen
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +43,7 @@ public final class PasslistService {
     private static final String GROUP_URL = API_URL + "/groups/{id}";
     private static final String CLASS_URL = API_URL + "/classes/{id}";
     private static final String MARK_STUDENT_AS_ASSISTANCE = API_URL + "/classes/{class_id}/students/{student_id}/assist";
+    private static final String IMPORT_STUDENTS_URL = API_URL + GROUP_URL + "/students/import";
 
     // Attempt a login using the given email and password
     public static final void login(String email, String password, OkHttpResponseAndJSONObjectRequestListener requestListener) {
@@ -158,6 +160,17 @@ public final class PasslistService {
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(requestListener);
+    }
+
+    public static final void importStudents(String groupId, File file, JSONObjectRequestListener requestListener) {
+        String importStudentsURL = injectIdInUrl(IMPORT_STUDENTS_URL, groupId);
+        AndroidNetworking.upload(IMPORT_STUDENTS_URL)
+                .addMultipartFile("student_import[file]",file)
+                .setTag("import_students")
+                .setPriority(Priority.HIGH)
+                .build()
+                .getAsJSONObject(requestListener
+                );
     }
 
     // Replace the {id} pattern in a string with an actual value
