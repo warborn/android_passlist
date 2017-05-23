@@ -156,6 +156,20 @@ public class JSONBuilder {
         return errorMessagesStr;
     }
 
+    // Returns a string with all the messages inside of the "errors" array
+    // and set specific messages regarding file import errors
+    // { "errors": [] }
+    public static String getStringFromImportMessages(JSONObject jsonObject) {
+        StringBuilder importMessagesStr = new StringBuilder();
+        try {
+            importMessagesStr.append("Importados: " + String.valueOf(jsonObject.getInt("imported_count"))).append("\n");
+            importMessagesStr.append("Actualizados: " + String.valueOf(jsonObject.getInt("updated_count")));
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+        return importMessagesStr.toString();
+    }
+
     // Returns a joined string array by a newline
     // ["1", "2", "3"] => "1\n2\n3"
     private static String joinJSONStringArray(JSONArray jsonArray) {

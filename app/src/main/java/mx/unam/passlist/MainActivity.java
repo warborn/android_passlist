@@ -20,7 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;
@@ -78,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
                         markAssistance();
                         // Calling this method will create new a group
                         // createGroup();
+                        // Calling this method will import students to an existing group
+                        // importStudents();
                     } else {
                         returnToLoginActivity();
                     }
@@ -209,6 +211,32 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("CREATE_GROUP_ERROR", anError.getErrorBody());
                 String errorMessage = JSONBuilder.getStringFromErrors(anError.getErrorBody());
                 Toast.makeText(getApplicationContext(), errorMessage, Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    // TODO: Move to the activity where the user can import a file of students
+    private void importStudents() {
+        // Replace the getFileFromAssets with the actual file selected by the user
+        // For example: File studentsFile = aWayToGetTheFileFromTheUserDevice();
+        File studentsFile = FileUtils.getFileFromAssets(this, "files/students.csv", "students.csv");
+        String groupId = "1";
+
+        PasslistService.importStudents(groupId, studentsFile, new JSONObjectRequestListener() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.i("IMPORT_FILE_SUCCESS", response.toString());
+                String successMessage = "Se han importado con exito!\n" + JSONBuilder.getStringFromImportMessages(response);
+                Toast.makeText(getApplicationContext(), successMessage, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(ANError anError) {
+                anError.printStackTrace();
+                Log.e("IMPORT_ERROR_DETAIL", anError.getErrorDetail());
+                Log.e("IMPORT_FILE_ERROR", anError.getErrorBody());
+                String importErrorMessages = JSONBuilder.getStringFromErrors(anError.getErrorBody());
+                Toast.makeText(getApplicationContext(), importErrorMessages, Toast.LENGTH_LONG).show();
             }
         });
     }
