@@ -22,7 +22,9 @@ import java.util.regex.Pattern;
 
 /**
  * Service class to interact with the Passlist API at https://unam-passlist.herokuapp.com
- * This class is the one in charge to send HTTP Request to the API, it has wrapper methods to send specific requests like
+ * This class is the one in charge to send HTTP Request to the API, it has wrapper methods
+ * arround the Fast Android Networking library (https://github.com/amitshekhariitbhu/Fast-Android-Networking)
+ * to send specific requests like the following:
  *      * Login a user
  *      * Validate the stored token of the user in the shared preferences to know if it's still a valid token
  *      * Register a new user
@@ -31,7 +33,7 @@ import java.util.regex.Pattern;
  *      * Get one group information and a list of the school class days (the calendar)
  *      * Get one class day information and a list of the students in that class to allow the user to mark students assistance
  *      * Toggle a student's assistance between true and false
- *
+ *      * Import a list of students from a .csv file into an existing group
  */
 public final class PasslistService {
     private static final String API_URL = "https://unam-passlist.herokuapp.com";
@@ -43,7 +45,7 @@ public final class PasslistService {
     private static final String GROUP_URL = API_URL + "/groups/{id}";
     private static final String CLASS_URL = API_URL + "/classes/{id}";
     private static final String MARK_STUDENT_AS_ASSISTANCE = API_URL + "/classes/{class_id}/students/{student_id}/assist";
-    private static final String IMPORT_STUDENTS_URL = API_URL + GROUP_URL + "/students/import";
+    private static final String IMPORT_STUDENTS_URL = API_URL  + "/groups/{id}/students/import";
 
     // Attempt a login using the given email and password
     public static final void login(String email, String password, OkHttpResponseAndJSONObjectRequestListener requestListener) {
@@ -162,9 +164,13 @@ public final class PasslistService {
                 .getAsJSONObject(requestListener);
     }
 
+    // Import a list of students from a .csv file into an existing group given the group ID and a file object
     public static final void importStudents(String groupId, File file, JSONObjectRequestListener requestListener) {
         String importStudentsURL = injectIdInUrl(IMPORT_STUDENTS_URL, groupId);
-        AndroidNetworking.upload(IMPORT_STUDENTS_URL)
+        ANRequest.MultiPartBuilder androidNetworking = (ANRequest.MultiPartBuilder)
+                AuthUtils.addAuthHeaders(AndroidNetworking.upload(importStudentsURL));
+
+        androidNetworking
                 .addMultipartFile("student_import[file]",file)
                 .setTag("import_students")
                 .setPriority(Priority.HIGH)
