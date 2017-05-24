@@ -116,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 LinearLayout llMain;
                 llMain = (LinearLayout)findViewById(R.id.llMain);
+                llMain.removeAllViews();
                 Button btnAddGroup = new Button(getBaseContext());
                 for (int i=0; i< response.length(); i++){
                     try {
@@ -185,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
     // TODO: Move to the activity where the user will see the table of students and pass list
     // TODO: Use the JSONObject to display the class information (optionally)
     // TODO: Use the JSONObject to display all of the students in the calendar
+
     private void displayClass() {
         String classId = "1";
         PasslistService.getClass(classId, new JSONObjectRequestListener() {

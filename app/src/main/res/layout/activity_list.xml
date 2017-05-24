@@ -5,6 +5,7 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
@@ -14,7 +15,17 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
-
+        <TableRow
+            android:layout_width="0dp">
+            <TextView
+                android:id="@+id/tvTest"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_span="5"
+                android:textColor="#fff"
+                android:background="#00b7ff"
+                />
+        </TableRow>
         <TableRow
             android:layout_width="0dp">
 
