@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_margin="10sp">
+
+        <TextView
+            android:id="@+id/lblDatosGenerales"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="30dp"
+            android:textSize="25dp"
+            android:text="Datos Generales" />
+
+        <TextView
+            android:id="@+id/lblGrupo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Grupo" />
+
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="number"
+            />
+
+        <TextView
+            android:id="@+id/lblAsignatura"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/txtGrupo"
+            android:text="Asignatura" />
+
+        <EditText
+            android:id="@+id/et_subject"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:layout_below="@+id/lblAsignatura"
+            />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:text="Periodo escolar"
+            android:gravity="center"
+            android:layout_marginBottom="10sp"/>
+        <TextView
+            android:id="@+id/lblFechaInicio"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:text="Fecha de inicio"
+            android:gravity="center"
+            />
+
+        <EditText
+            android:id="@+id/et_begin_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableLeft="@android:drawable/ic_menu_day"
+            android:inputType="date"
+            android:focusable="true"
+            />
+        <TextView
+            android:id="@+id/lblFechaTermino"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:text="Fecha de término"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/et_end_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableLeft="@android:drawable/ic_menu_day"
+            android:inputType="date"
+            android:focusable="true"
+            />
+
+        <TextView
+            android:id="@+id/lblDiasClase"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:text="Días de clase"
+            android:textSize="15dp"
+            android:gravity="center"
+            android:layout_marginTop="10sp"
+            />
+        <TextView
+            android:id="@+id/lbl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:text="Dia"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/et_day"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableLeft="@android:drawable/ic_menu_day"
+            android:inputType="date"
+            android:focusable="true"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:text="Hora de inicio"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/et_begin_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableLeft="@android:drawable/ic_menu_day"
+            android:inputType="date"
+            android:focusable="true"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textStyle="bold"
+            android:textSize="15dp"
+            android:text="Hora de fin"
+            android:gravity="center"/>
+
+        <EditText
+            android:id="@+id/et_end_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawableLeft="@android:drawable/ic_menu_day"
+            android:inputType="date"
+            android:focusable="true"
+            />
+        <Button
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Registrar"
+            android:layout_marginBottom="20sp"/>
+    </LinearLayout>
+</ScrollView>
