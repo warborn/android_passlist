@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvGroup;
     TextView tvClass;
     TextView tvAssistance;
+    ScrollView svMain;
     Button btnImport;
     String groupId;
 
@@ -59,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
         tvGroup = (TextView) findViewById(R.id.tv_group);     // Hold a JSON string of single group (including the classes calendar)
         tvClass = (TextView) findViewById(R.id.tv_class);     // Hold a JSON string of a single class (including the list of students)
         tvAssistance = (TextView) findViewById(R.id.tv_assistance);   // Hold a JSON string of the changes in the student's assistance
+        svMain = (ScrollView) findViewById(R.id.sv_main);
         btnImport = (Button) findViewById(R.id.btn_import);
         verifyStoragePermissions(this);
         btnImport.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
         int selectedItemId = item.getItemId();
         if(selectedItemId == R.id.it_logout) {
             logoutUser();
+        } else if(selectedItemId == R.id.it_credits) {
+            startInfoActivity();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -171,6 +176,8 @@ public class MainActivity extends AppCompatActivity {
         PasslistService.getGroups(new JSONArrayRequestListener() {
             @Override
             public void onResponse(JSONArray response) {
+                btnImport.setVisibility(View.VISIBLE);
+                svMain.setVisibility(View.VISIBLE);
                 LinearLayout llMain;
                 llMain = (LinearLayout)findViewById(R.id.llMain);
                 llMain.removeAllViews();
@@ -365,4 +372,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    private void startInfoActivity() {
+        Intent intent = new Intent(MainActivity.this, Info.class);
+        startActivity(intent);
+    }
 }

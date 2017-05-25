@@ -6,4 +6,9 @@
         app:showAsAction="never"
         android:title="@string/logout"
         android:orderInCategory="1" />
+    <item
+        android:id="@+id/it_credits"
+        app:showAsAction="never"
+        android:title="@string/credits"
+        android:orderInCategory="2" />
 </menu>

@@ -13,11 +13,14 @@
         android:text="Importar Alumnos"
         android:background="@color/colorPrimaryDark"
         android:textColor="@color/icons"
+        android:visibility="invisible"
         />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/sv_main"
+        android:visibility="invisible">
         <LinearLayout
             android:id="@+id/llMain"
             android:layout_width="match_parent"

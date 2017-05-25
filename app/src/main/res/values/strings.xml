@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">PassList</string>
     <string name="logout">Cerrar Sesión</string>
+    <string name="credits">Créditos</string>
 </resources>

@@ -14,7 +14,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Aplicación desarrollada en la UNAM, para la asignatura de: \n Seminario de Desarrollo de Aplicaciones para Disppositios Móviles"
+        android:text="Aplicación desarrollada en la UNAM, para la asignatura de: \n Seminario de Desarrollo de Aplicaciones para Dispositivos Móviles"
         android:textColor="#fff"
         android:background="#0e8401"
         android:gravity="center"
@@ -23,7 +23,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Integrantes: \n Lozano García Gustavo Uriel \n Miranda Garfias Sandra \n Monroy Reyes Angel Ricardo \n Munguía Cruz Iván Alejandro "
+        android:text="Integrantes: \n Lozano García Gustavo Uriel \n Miranda Garfias Sandra \n Monroy Reyes Ángel Ricardo \n Munguía Cruz Iván Alejandro "
         android:textColor="#fff"
         android:background="#014784"
         android:gravity="center"
