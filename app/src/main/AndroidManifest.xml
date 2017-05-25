@@ -3,6 +3,7 @@
     package="mx.unam.passlist">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -23,7 +24,6 @@
             android:noHistory="true" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".List"></activity>
-        <activity android:name=".Calendario"></activity>
         <activity android:name=".CalendarActivity"></activity>
     </application>
 

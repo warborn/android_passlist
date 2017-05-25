@@ -5,6 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     tools:context="mx.unam.passlist.MainActivity">
+    <Button
+        android:id="@+id/btn_import"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Importar Alumnos"
+        android:background="@color/colorPrimaryDark"
+        android:textColor="@color/icons"
+        />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
