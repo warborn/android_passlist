@@ -1,7 +1,12 @@
 package mx.unam.passlist;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,12 +31,22 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;
+    private static final int FILE_REQUEST_CODE = 1;
+    // Storage Permissions
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
+
     ProgressBar pbLoadingIndicator;
     // TODO: Remove if necessary
     TextView tvMessage;
     TextView tvGroup;
     TextView tvClass;
     TextView tvAssistance;
+    Button btnImport;
+    String groupId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +59,48 @@ public class MainActivity extends AppCompatActivity {
         tvGroup = (TextView) findViewById(R.id.tv_group);     // Hold a JSON string of single group (including the classes calendar)
         tvClass = (TextView) findViewById(R.id.tv_class);     // Hold a JSON string of a single class (including the list of students)
         tvAssistance = (TextView) findViewById(R.id.tv_assistance);   // Hold a JSON string of the changes in the student's assistance
+        btnImport = (Button) findViewById(R.id.btn_import);
+        verifyStoragePermissions(this);
+        btnImport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFileChooser();
+            }
+        });
+    }
+
+    //persmission method.
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have read or write permission
+        int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
+
+        if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
+        }
+    }
+
+    private void showFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("*/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Selecciona un Archivo"), FILE_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == FILE_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+            File studentsFile = new File(filePath.getPath());
+            importStudents(studentsFile, groupId);
+        }
     }
 
     @Override
@@ -127,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
                         btnJsonObject.setText(jsonObject.getString("name")+" - "+jsonObject.getString("subject"));
                         btnJsonObject.setWidth(llMain.getWidth());
                         btnJsonObject.setHeight(150);
+                        groupId = jsonObject.getString("id");
                         btnJsonObject.setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View v) {
@@ -255,11 +313,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // TODO: Move to the activity where the user can import a file of students
-    private void importStudents() {
+    private void importStudents(File studentsFile, String groupId) {
         // Replace the getFileFromAssets with the actual file selected by the user
         // For example: File studentsFile = aWayToGetTheFileFromTheUserDevice();
-        File studentsFile = FileUtils.getFileFromAssets(this, "files/students.csv", "students.csv");
-        String groupId = "1";
+        //File studentsFile = FileUtils.getFileFromAssets(this, "files/students.csv", "students.csv");
+        // String groupId = "1";
 
         PasslistService.importStudents(groupId, studentsFile, new JSONObjectRequestListener() {
             @Override
