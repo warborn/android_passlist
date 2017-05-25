@@ -117,7 +117,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawableLeft="@android:drawable/ic_menu_day"
-            android:inputType="date"
             android:focusable="true"
             />
         <TextView
@@ -133,7 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawableLeft="@android:drawable/ic_menu_day"
-            android:inputType="date"
+            android:inputType="time"
             android:focusable="true"
             />
         <TextView
@@ -149,7 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:drawableLeft="@android:drawable/ic_menu_day"
-            android:inputType="date"
+            android:inputType="time"
             android:focusable="true"
             />
         <Button

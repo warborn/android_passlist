@@ -32,14 +32,6 @@ import java.io.File;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences preferences;
-    private static final int FILE_REQUEST_CODE = 1;
-    // Storage Permissions
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-    };
-
     ProgressBar pbLoadingIndicator;
     // TODO: Remove if necessary
     TextView tvMessage;
@@ -47,8 +39,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tvClass;
     TextView tvAssistance;
     ScrollView svMain;
-    Button btnImport;
-    String groupId;
+    Button btnRegisterGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,48 +53,14 @@ public class MainActivity extends AppCompatActivity {
         tvClass = (TextView) findViewById(R.id.tv_class);     // Hold a JSON string of a single class (including the list of students)
         tvAssistance = (TextView) findViewById(R.id.tv_assistance);   // Hold a JSON string of the changes in the student's assistance
         svMain = (ScrollView) findViewById(R.id.sv_main);
-        btnImport = (Button) findViewById(R.id.btn_import);
-        verifyStoragePermissions(this);
-        btnImport.setOnClickListener(new View.OnClickListener() {
+        btnRegisterGroup = (Button) findViewById(R.id.btn_register_group);
+        btnRegisterGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFileChooser();
+                Intent intent = new Intent(MainActivity.this, RegisterGroupActivity.class);
+                startActivity(intent);
             }
         });
-    }
-
-    //persmission method.
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have read or write permission
-        int writePermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        int readPermission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
-
-        if (writePermission != PackageManager.PERMISSION_GRANTED || readPermission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
-        }
-    }
-
-    private void showFileChooser() {
-        Intent intent = new Intent();
-        intent.setType("*/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Selecciona un Archivo"), FILE_REQUEST_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == FILE_REQUEST_CODE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            Uri filePath = data.getData();
-            File studentsFile = new File(filePath.getPath());
-            importStudents(studentsFile, groupId);
-        }
     }
 
     @Override
@@ -176,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         PasslistService.getGroups(new JSONArrayRequestListener() {
             @Override
             public void onResponse(JSONArray response) {
-                btnImport.setVisibility(View.VISIBLE);
+                btnRegisterGroup.setVisibility(View.VISIBLE);
                 svMain.setVisibility(View.VISIBLE);
                 LinearLayout llMain;
                 llMain = (LinearLayout)findViewById(R.id.llMain);
@@ -191,7 +148,6 @@ public class MainActivity extends AppCompatActivity {
                         btnJsonObject.setText(jsonObject.getString("name")+" - "+jsonObject.getString("subject"));
                         btnJsonObject.setWidth(llMain.getWidth());
                         btnJsonObject.setHeight(150);
-                        groupId = jsonObject.getString("id");
                         btnJsonObject.setOnClickListener(new View.OnClickListener(){
                             @Override
                             public void onClick(View v) {
@@ -201,23 +157,11 @@ public class MainActivity extends AppCompatActivity {
                                 startActivityCalendar(idBtn);
                             }
                         });
-                        //btn add group
-                        btnAddGroup.setText("Agregar grupos");
-                        btnAddGroup.setWidth(llMain.getWidth());
-                        btnAddGroup.setHeight(150);
-                        btnAddGroup.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                //Intent intent = new Intent(MainActivity.this, RegisterGroupActivity.class);
-                                //startActivity(intent);
-                            }
-                        });
                         llMain.addView(btnJsonObject);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }
-                llMain.addView(btnAddGroup);
 
             }
 
