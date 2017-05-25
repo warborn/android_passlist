@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:weightSum="1">
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_logo"
+        android:layout_weight="0.47"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Aplicación desarrollada en la UNAM, para la asignatura de: \n Seminario de Desarrollo de Aplicaciones para Disppositios Móviles"
+        android:textColor="#fff"
+        android:background="#0e8401"
+        android:gravity="center"
+        android:textSize="15sp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Integrantes: \n Lozano García Gustavo Uriel \n Miranda Garfias Sandra \n Monroy Reyes Angel Ricardo \n Munguía Cruz Iván Alejandro "
+        android:textColor="#fff"
+        android:background="#014784"
+        android:gravity="center"
+        android:textSize="15sp"
+        />
+
+</LinearLayout>
