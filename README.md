@@ -36,12 +36,12 @@ It's an android client that interacts with the [Passlist API](https://github.com
   <img src="https://s20.postimg.org/zam8oo5d9/calendar.png" alt="Screenshot of the Calendar screen" height="500">
 </p>
 
-#### "Import Students" button that allows the app to select a ***.csv*** file to add new students to a given course and also update them.
+#### "Import Students" button allows the app to select a ***.csv*** file to add new students to a given course and also update them
 <p align="center">
   <img src="https://s20.postimg.org/ymde5q6nh/file-chooser.png" alt="Screenshot of the Android File Chooser screen" height="500">
 </p>
 
-#### Selection of a class day to list all the students enrolled in the course.
+#### Selection of a class day to list all the students enrolled in the course
 In this activity the user can toggle the attendance of the student for that day.
 <p align="center">
   <img src="https://s20.postimg.org/tu86811d9/student-list.png" alt="Screenshot of the Student List screen" height="500">

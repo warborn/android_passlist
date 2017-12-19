@@ -26,7 +26,7 @@ public class List extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        btn_Add_Student = (Button)findViewById(R.id.btn_Add_Student);
+//        btn_Add_Student = (Button)findViewById(R.id.btn_Add_Student);
         tv_Class_Day = (TextView)findViewById(R.id.tv_Class_Day);
         gl_List = (GridLayout)findViewById(R.id.gl_List);
         Bundle bundle = this.getIntent().getExtras();
